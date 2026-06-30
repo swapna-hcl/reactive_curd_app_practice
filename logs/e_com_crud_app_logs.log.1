@@ -1,0 +1,73 @@
+2026-07-01 01:00:01,593 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.val.int.met.agg.CascadingMetaDataBuilder] (Quarkus Main Thread) HV000271: Using `@Valid` on a container (java.util.List) is deprecated. You should apply the annotation on the type argument(s). Affected element: products
+2026-07-01 01:00:01,694 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [io.qua.config] (Quarkus Main Thread) The "quarkus.log.file.enable" config property is deprecated and should not be used anymore.
+2026-07-01 01:00:01,695 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [io.qua.config] (Quarkus Main Thread) The "quarkus.hibernate-orm.database.generation" config property is deprecated and should not be used anymore.
+2026-07-01 01:00:01,695 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [io.qua.config] (Quarkus Main Thread) The "quarkus.log.console.enable" config property is deprecated and should not be used anymore.
+2026-07-01 01:00:01,867 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,867 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "order_items_seq" already exists (42P07)
+2026-07-01 01:00:01,869 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "order_items_seq" already exists (42P07)] [
+    create sequence order_items_SEQ start with 1 increment by 50]]
+2026-07-01 01:00:01,870 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,870 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "orders_seq" already exists (42P07)
+2026-07-01 01:00:01,870 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "orders_seq" already exists (42P07)] [
+    create sequence orders_SEQ start with 1 increment by 50]]
+2026-07-01 01:00:01,872 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,873 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "products_seq" already exists (42P07)
+2026-07-01 01:00:01,873 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "products_seq" already exists (42P07)] [
+    create sequence products_SEQ start with 1 increment by 50]]
+2026-07-01 01:00:01,875 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,875 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "users_seq" already exists (42P07)
+2026-07-01 01:00:01,876 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "users_seq" already exists (42P07)] [
+    create sequence users_SEQ start with 1 increment by 50]]
+2026-07-01 01:00:01,877 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,878 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "order_items" already exists (42P07)
+2026-07-01 01:00:01,878 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "order_items" already exists (42P07)] [
+    create table order_items (
+        item_total_price float(53) not null,
+        quantity integer not null,
+        unit_price float(53) not null,
+        id bigint not null,
+        order_id bigint not null,
+        product_id bigint not null,
+        primary key (id)
+    )]]
+2026-07-01 01:00:01,879 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,880 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "orders" already exists (42P07)
+2026-07-01 01:00:01,880 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "orders" already exists (42P07)] [
+    create table orders (
+        total_price float(53) not null,
+        id bigint not null,
+        order_date timestamp(6) not null,
+        user_id bigint not null,
+        primary key (id)
+    )]]
+2026-07-01 01:00:01,882 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,883 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "products" already exists (42P07)
+2026-07-01 01:00:01,883 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "products" already exists (42P07)] [
+    create table products (
+        price float(53),
+        id bigint not null,
+        name varchar(255),
+        primary key (id)
+    )]]
+2026-07-01 01:00:01,885 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42P07
+2026-07-01 01:00:01,885 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: relation "users" already exists (42P07)
+2026-07-01 01:00:01,886 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: relation "users" already exists (42P07)] [
+    create table users (
+        id bigint not null,
+        email varchar(255) not null unique,
+        name varchar(255) not null,
+        primary key (id)
+    )]]
+2026-07-01 01:00:01,888 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) HHH000247: ErrorCode: 0, SQLState: 42710
+2026-07-01 01:00:01,888 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.orm.jdb.error] (vert.x-eventloop-thread-0) ERROR: constraint "fkbioxgbv59vetrxe0ejfubep1w" for relation "order_items" already exists (42710)
+2026-07-01 01:00:01,888 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] WARN  [org.hib.rea.pro.ser.ReactiveGenerationTarget] (vert.x-eventloop-thread-0) HR000021: DDL command failed [org.hibernate.exception.SQLGrammarException: error executing SQL statement [ERROR: constraint "fkbioxgbv59vetrxe0ejfubep1w" for relation "order_items" already exists (42710)] [
+    alter table if exists order_items 
+       add constraint FKbioxgbv59vetrxe0ejfubep1w 
+       foreign key (order_id) 
+       references orders]]
+2026-07-01 01:00:01,898 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] INFO  [io.quarkus] (Quarkus Main Thread) reactive_curd_app_practice 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.37.0) started in 1.502s. Listening on: http://localhost:8080
+2026-07-01 01:00:01,899 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2026-07-01 01:00:01,899 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, compose, hibernate-orm, hibernate-reactive, hibernate-reactive-panache, hibernate-reactive-rest-data-panache, hibernate-validator, reactive-pg-client, rest, rest-jackson, rest-links, smallrye-context-propagation, smallrye-openapi, swagger-ui, vertx]
+2026-07-01 01:00:01,900 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] INFO  [io.qua.dep.dev.RuntimeUpdatesProcessor] (vert.x-worker-thread-7) Live reload total time: 1.907s 
+2026-07-01 01:05:23,018 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] INFO  [io.qua.dep.dev.RuntimeUpdatesProcessor] (vert.x-worker-thread-9) Restarting quarkus due to changes in ProductService.class, SearchProductResponseDto.class.
+2026-07-01 01:05:23,201 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[11888] INFO  [io.quarkus] (Quarkus Main Thread) reactive_curd_app_practice stopped in 0.181s
