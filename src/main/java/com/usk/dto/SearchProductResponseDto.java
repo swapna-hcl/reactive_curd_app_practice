@@ -1,6 +1,6 @@
 package com.usk.dto;
 
-import io.smallrye.mutiny.Uni;
+import java.util.List;
 
 /**
  * Simple DTO for product information in search results
@@ -8,54 +8,36 @@ import io.smallrye.mutiny.Uni;
  */
 public class SearchProductResponseDto {
 
-    public Long id;          // Product ID
-    public String name;      // Product name
-    public Double price;
-    public Uni<Object> totalPages; // Total number of pages
-    public Uni<Object> totalCount; // Total number of products
 
-    public Uni<Object> getTotalPages() {
+    public List<ProductResponseDto> products;
+    public int totalPages;
+
+    public List<ProductResponseDto> getProducts() {
+        return products;
+    }
+
+    public int getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(Uni<Object> totalPages) {
+    public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
     }
 
-    public Uni<Object> getTotalCount() {
+    public long getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(Uni<Object> totalCount) {
+    public void setTotalCount(long totalCount) {
         this.totalCount = totalCount;
     }
 
-    // Default constructor
-    public SearchProductResponseDto() {
+
+    public void setProducts(List<ProductResponseDto> products) {
+        this.products = products;
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public long totalCount;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 }

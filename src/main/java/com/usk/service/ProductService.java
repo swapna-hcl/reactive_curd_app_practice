@@ -1,8 +1,8 @@
 package com.usk.service;
 
+import com.usk.dto.ProductResponseDto;
 import com.usk.dto.SearchProductResponseDto;
 import com.usk.entity.Product;
-import com.usk.exception.ProductNotFoundException;
 import com.usk.repository.ProductRepository;
 import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.panache.common.Page;
@@ -20,31 +20,57 @@ public class ProductService {
 
 
     @WithSession
-    public Uni<List<SearchProductResponseDto>> searchProducts(String searchText, int page, int size) {
-        // Reactive query - returns Uni<List<Product>>
-        return productRepository.find(
-                        "LOWER(name) LIKE LOWER(?1)", "%" + searchText + "%")
-                .page(Page.of(page, size))
-                .list()  // Returns Uni<List<Product>>
-                // Transform the result when it arrives (reactive transformation)
-                .onItem().transform(products -> {
+    public Uni<SearchProductResponseDto> searchProducts(String searchText, int page, int size) {
 
-                    return products.stream()
-                            .map(this::convertToResponseDto)
-                            .collect(Collectors.toList());
-                    });
+        Uni<List<Product>> products = productRepository.searchProducts(searchText, page, size);
+
+        Uni<Long> totalCount = productRepository.countProducts(searchText);
+
+        return Uni.combine().all().unis(products, totalCount).asTuple()
+                .onItem().transform(tuple -> {
+                    List<Product> productslist = tuple.getItem1();
+                    Long total_count = tuple.getItem2();
+                    int totalPages = (int) Math.ceil((double) total_count / size);
+
+                    SearchProductResponseDto response = new SearchProductResponseDto();
+                    response.setProducts(productslist.stream()
+                            .map(this::MapToResponse)
+                            .toList());
+
+                    response.setTotalCount(total_count);
+                    response.setTotalPages(totalPages);
+                    return response;
+                });
     }
 
-    private SearchProductResponseDto convertToResponseDto(Product product) {
-        SearchProductResponseDto dto = new SearchProductResponseDto();
-        dto.id = product.id;
-        dto.name = product.name;
-        dto.price = product.price;
-        dto.totalPages = productRepository.count("LOWER(name) LIKE LOWER(?1)", "%" + product.name + "%")
-                .onItem().transform(count -> (int) Math.ceil((double) count / 10)); // Assuming page size of 10
-        dto.totalCount = productRepository.count("LOWER(name) LIKE LOWER(?1)", "%" + product.name + "%")
-                .onItem().transform(count -> count.intValue());
+    private ProductResponseDto MapToResponse(Product product) {
+        ProductResponseDto dto = new ProductResponseDto();
+        dto.setProductId(product.id);
+        dto.setProductName(product.name);
+        dto.setProductPrice(product.price);
         return dto;
     }
 
+
+
+    //get all products with pagination
+    @WithSession
+    public Uni<List<ProductResponseDto>> getAllProducts(int page, int size) {
+        Uni<List<Product>> products = productRepository.findAll()
+                .page(Page.of(page, size))
+                .list();
+
+        Uni<Long> totalCount = productRepository.count();
+
+        return Uni.combine().all().unis(products, totalCount).asTuple()
+                .onItem().transform(tuple -> {
+                    List<Product> productslist = tuple.getItem1();
+                    Long total_count = tuple.getItem2();
+                    int totalPages = (int) Math.ceil((double) total_count / size);
+
+                    return productslist.stream()
+                            .map(this::MapToResponse)
+                            .collect(Collectors.toList());
+                });
+    }
 }
