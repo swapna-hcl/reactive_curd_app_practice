@@ -1,7 +1,6 @@
 package com.usk.resource;
 
 import com.usk.dto.CreateOrderRequestDto;
-import com.usk.dto.OrderResponseDto;
 import com.usk.service.OrderService;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
@@ -9,11 +8,10 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.logging.Logger;
 
 
-@Path("/orders")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class OrderResource {
@@ -24,10 +22,32 @@ public class OrderResource {
     @Inject
     OrderService orderService;
 
+    @GET
+    @Path("/users/{userId}/orders/latest")
+    public Uni<Response> getLatestOrdersByUser(@PathParam("userId") Long userId) {
+        LOG.info("Fetching latest 5 orders for user: " + userId);
+
+        return orderService.getLatestOrdersByUserId(userId)
+                .onItem().transform(orders -> Response.ok(orders).build())
+                .onFailure().recoverWithItem(error -> {
+                    LOG.error("Failed to fetch latest orders: " + error.getMessage(), error);
+
+                    ErrorResponse errorResponse = new ErrorResponse();
+                    errorResponse.error = error.getMessage();
+                    errorResponse.timestamp = System.currentTimeMillis();
+
+                    return Response
+                            .status(Response.Status.BAD_REQUEST)
+                            .entity(errorResponse)
+                            .build();
+                });
+    }
+
     /**
      * Create a new order
      */
     @POST
+    @Path("/orders")
     public Uni<Response> createOrder(@Valid CreateOrderRequestDto request) {
         LOG.info("Received order creation request for user: " + request.userId);
 

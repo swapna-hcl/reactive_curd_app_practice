@@ -10,6 +10,7 @@ import com.usk.exception.UserNotFoundException;
 import com.usk.repository.OrderRepository;
 import com.usk.repository.ProductRepository;
 import com.usk.repository.UserRepository;
+import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.Panache;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -18,6 +19,7 @@ import jakarta.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service class that handles the business logic for order creation.
@@ -40,12 +42,20 @@ public class OrderService {
 
 
     public Uni<OrderResponseDto> createOrder(CreateOrderRequestDto request) {
-        return Panache.withTransaction(() -> {
+        return Panache.withTransaction(() ->
+            // STEP 1: Check if the user exists and then process order with the User entity
+            checkUserExists(request.userId)
+                .chain(user -> processOrder(request, user))
+        );
+    }
 
-            // STEP 1: Check if the user exists
-            return checkUserExists(request.userId)
-                .chain(user -> processOrder(request));
-        });
+    @WithSession
+    public Uni<List<OrderResponseDto>> getLatestOrdersByUserId(Long userId) {
+        return checkUserExists(userId)
+                .chain(user -> orderRepository.findLatestOrdersByUserId(userId, 5))
+                .map(orders -> orders.stream()
+                        .map(order -> buildResponse(order, new ArrayList<>()))
+                        .collect(Collectors.toList()));
     }
 
     /**
@@ -65,7 +75,7 @@ public class OrderService {
     /**
      * STEP 2: Process the entire order
      */
-    private Uni<OrderResponseDto> processOrder(CreateOrderRequestDto request) {
+    private Uni<OrderResponseDto> processOrder(CreateOrderRequestDto request, User user) {
         // First, collect all product IDs from the request
         List<Long> productIds = new ArrayList<>();
         for (OrderProductDto item : request.products) {
@@ -74,7 +84,7 @@ public class OrderService {
 
         // STEP 3: Fetch all products from database and create order
         return loadProducts(productIds)
-            .chain(products -> createAndSaveOrder(request, products));
+            .chain(products -> createAndSaveOrder(request, products, user));
     }
 
     /**
@@ -109,10 +119,10 @@ public class OrderService {
     /**
      * STEP 4: Create the order entity and save it
      */
-    private Uni<OrderResponseDto> createAndSaveOrder(CreateOrderRequestDto request, List<Product> products) {
+    private Uni<OrderResponseDto> createAndSaveOrder(CreateOrderRequestDto request, List<Product> products, User user) {
         // Create a new order object
         Order order = new Order();
-        order.userId = request.userId;
+        order.user = user;
         order.orderDate = LocalDateTime.now();
         order.orderItems = new ArrayList<>();
 
@@ -156,7 +166,7 @@ public class OrderService {
         // Create response DTO
         OrderResponseDto response = new OrderResponseDto();
         response.orderId = order.id;
-        response.userId = order.userId;
+        response.userId = order.user != null ? order.user.id : null;
         response.totalPrice = order.totalPrice;
         response.orderDate = order.orderDate;
         response.orderItems = new ArrayList<>();

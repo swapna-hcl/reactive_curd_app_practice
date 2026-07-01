@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.usk.entity.User;
 
 /**
  * Order Entity - represents a customer order
@@ -19,9 +20,9 @@ import java.util.List;
 @Table(name = "orders")
 public class Order extends PanacheEntity {
 
-    // ID of the user who placed this order
-    @Column(name = "user_id", nullable = false)
-    public Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    public User user;
 
     // Total price of the entire order
     @Column(name = "total_price", nullable = false)
@@ -33,7 +34,7 @@ public class Order extends PanacheEntity {
 
     /**
      * List of items in this order
-     * 
+     *
      * @OneToMany: One order has many order items
      * mappedBy = "order": The OrderItem entity has a field called "order" that links back
      * cascade = ALL: When we save/delete an order, save/delete its items too
