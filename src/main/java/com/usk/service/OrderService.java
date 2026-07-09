@@ -1,11 +1,13 @@
 package com.usk.service;
 
+import com.usk.RestClient.TransactionClient;
 import com.usk.dto.*;
 import com.usk.entity.Order;
 import com.usk.entity.OrderItem;
 import com.usk.entity.Product;
 import com.usk.entity.User;
 import com.usk.exception.ProductNotFoundException;
+import com.usk.exception.TransactionFailedException;
 import com.usk.exception.UserNotFoundException;
 import com.usk.repository.OrderRepository;
 import com.usk.repository.ProductRepository;
@@ -15,6 +17,8 @@ import io.quarkus.hibernate.reactive.panache.Panache;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,6 +44,13 @@ public class OrderService {
     @Inject
     UserRepository userRepository;
 
+    @RestClient
+    TransactionClient transactionClient;
+
+
+    @ConfigProperty(name = "ecom.account.number")
+    String toAccountNumber;
+
 
     public Uni<OrderResponseDto> createOrder(CreateOrderRequestDto request) {
         return Panache.withTransaction(() ->
@@ -49,27 +60,18 @@ public class OrderService {
         );
     }
 
-    @WithSession
-    public Uni<List<OrderResponseDto>> getLatestOrdersByUserId(Long userId) {
-        return checkUserExists(userId)
-                .chain(user -> orderRepository.findLatestOrdersByUserId(userId, 5))
-                .map(orders -> orders.stream()
-                        .map(order -> buildResponse(order, new ArrayList<>()))
-                        .collect(Collectors.toList()));
-    }
-
     /**
      * STEP 1: Verify the user exists in the database
      */
     private Uni<User> checkUserExists(Long userId) {
         // findById returns Uni<User> - a promise of a User object
         return userRepository.findById(userId)
-            .onItem().transform(user -> {
-                if (user == null) {
-                    throw new UserNotFoundException("User with ID " + userId + " not found");
-                }
-                return user;
-            });
+                .onItem().transform(user -> {
+                    if (user == null) {
+                        throw new UserNotFoundException("User with ID " + userId + " not found");
+                    }
+                    return user;
+                });
     }
 
     /**
@@ -101,7 +103,6 @@ public class OrderService {
                 return products;
             });
     }
-
 
 
     /**
@@ -149,14 +150,30 @@ public class OrderService {
 
         order.totalPrice = totalPrice;
 
-        // Save the order (orderItems will be saved automatically due to cascade)
-        // Use persistAndFlush to ensure IDs are generated immediately
-        return orderRepository.persistAndFlush(order)
+        // Create transaction request
+        TransactionRequest transactionRequest = new TransactionRequest();
+        transactionRequest.setFromAccountNumber(request.accountNumber);
+        transactionRequest.setToAccountNumber(toAccountNumber);
+        transactionRequest.setAmount(totalPrice);
+
+        // Chain the transaction call with order persistence
+        return transactionClient.createTransaction(transactionRequest)
+            .chain(transactionResponse -> {
+                // Transaction successful, now save the order
+                return orderRepository.persistAndFlush(order);
+            })
             .chain(savedOrder -> {
                 // Reload the order to get fresh data with populated IDs
                 return orderRepository.findById(savedOrder.id);
             })
-            .map(reloadedOrder -> buildResponse(reloadedOrder, products));
+            .map(reloadedOrder -> buildResponse(reloadedOrder, products))
+            .onFailure().recoverWithItem(() -> {
+                // Log error but still create order if transaction fails
+                    throw new TransactionFailedException("Transaction Failed");
+            });
+
+
+
     }
 
     /**
@@ -177,9 +194,32 @@ public class OrderService {
             response.orderItems.add(itemDto);
         }
 
-
         return response;
     }
+
+     /**
+      * Fetch all orders and map to OrderResponseDto
+      * Returns a reactive stream of all orders in the database
+      * Each Order entity is transformed to OrderResponseDto format
+      */
+     @WithSession
+     public Uni<List<OrderResponseDto>> getAllOrders() {
+         return orderRepository.listAll()
+                 .map(orders -> orders.stream()
+                         .map(order -> buildResponse(order, new ArrayList<>()))
+                         .collect(Collectors.toList()));
+     }
+
+    @WithSession
+    public Uni<List<OrderResponseDto>> getLatestOrdersByUserId(Long userId) {
+        return checkUserExists(userId)
+                .chain(user -> orderRepository.findLatestOrdersByUserId(userId, 5))
+                .map(orders -> orders.stream()
+                        .map(order -> buildResponse(order, new ArrayList<>()))
+                        .collect(Collectors.toList()));
+    }
+
+
 }
 
 

@@ -31,15 +31,17 @@ public class CreateOrderRequestDto {
     @NotEmpty(message = "Products list cannot be empty")
     @Valid  // Validates each product in the list
     public List<OrderProductDto> products;
+    public String accountNumber;
 
     // Default constructor (required for JSON deserialization)
     public CreateOrderRequestDto() {
     }
 
     // Constructor with all fields
-    public CreateOrderRequestDto(Long userId, List<OrderProductDto> products) {
+    public CreateOrderRequestDto(Long userId, List<OrderProductDto> products,String accountNumber) {
         this.userId = userId;
         this.products = products;
+        this.accountNumber= accountNumber;
     }
 }
 

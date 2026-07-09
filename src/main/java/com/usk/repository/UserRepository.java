@@ -2,6 +2,7 @@ package com.usk.repository;
 
 import com.usk.entity.User;
 import io.quarkus.hibernate.reactive.panache.PanacheRepository;
+import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 
 /**
@@ -16,8 +17,8 @@ import jakarta.enterprise.context.ApplicationScoped;
  */
 @ApplicationScoped
 public class UserRepository implements PanacheRepository<User> {
-    // All methods are inherited from PanacheRepository
-    // You can add custom query methods here if needed
+    // Custom query method to find user by email
+    public Uni<User> findByEmail(String email) {
+        return find("email", email).firstResult();
+    }
 }
-
-

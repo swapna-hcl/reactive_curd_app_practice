@@ -1,0 +1,143 @@
+2026-07-09 22:35:50,017 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] WARN  [org.hib.val.int.met.agg.CascadingMetaDataBuilder] (Quarkus Main Thread) HV000271: Using `@Valid` on a container (java.util.List) is deprecated. You should apply the annotation on the type argument(s). Affected element: products
+2026-07-09 22:35:50,140 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] WARN  [io.qua.config] (Quarkus Main Thread) The "quarkus.hibernate-orm.database.generation" config property is deprecated and should not be used anymore.
+2026-07-09 22:35:50,141 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] WARN  [io.qua.config] (Quarkus Main Thread) The "quarkus.log.file.enable" config property is deprecated and should not be used anymore.
+2026-07-09 22:35:50,143 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] WARN  [io.qua.config] (Quarkus Main Thread) The "quarkus.log.console.enable" config property is deprecated and should not be used anymore.
+2026-07-09 22:35:50,553 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] INFO  [io.quarkus] (Quarkus Main Thread) reactive_curd_app_practice 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.37.0) started in 2.676s. Listening on: http://localhost:8080
+2026-07-09 22:35:50,554 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2026-07-09 22:35:50,555 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [cdi, compose, hibernate-orm, hibernate-reactive, hibernate-reactive-panache, hibernate-reactive-rest-data-panache, hibernate-validator, reactive-pg-client, rest, rest-client, rest-client-jackson, rest-jackson, rest-links, security, smallrye-context-propagation, smallrye-fault-tolerance, smallrye-jwt, smallrye-openapi, swagger-ui, vertx]
+2026-07-09 22:35:50,556 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] INFO  [io.qua.dep.dev.RuntimeUpdatesProcessor] (vert.x-worker-thread-1) Live reload total time: 7.098s 
+2026-07-09 22:35:50,557 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] INFO  [io.qua.dep.dev.RuntimeUpdatesProcessor] (vert.x-worker-thread-1) Live reload took more than 4 seconds, you may want to enable instrumentation based reload (quarkus.live-reload.instrumentation=true). This allows small changes to take effect without restarting Quarkus.
+2026-07-09 22:35:50,564 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] WARN  [io.sma.jwt.config] (vert.x-eventloop-thread-2) SRJWT03006: 'smallrye.jwt.verify.algorithm' property is deprecated and will be removed in a future version. Use 'mp.jwt.verify.publickey.algorithm ' property instead
+2026-07-09 22:35:50,836 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] WARN  [io.qua.hib.rea.res.dat.pan.run.RestDataPanacheExceptionMapper] (vert.x-eventloop-thread-2) Mapping an unhandled CompositeException: io.smallrye.mutiny.CompositeException: Multiple exceptions caught:
+	[Exception 0] io.smallrye.mutiny.CompositeException: Multiple exceptions caught:
+	[Exception 0] org.jboss.resteasy.reactive.ClientWebApplicationException: Received: 'Bad Request, status code 400' when invoking REST Client method: 'com.usk.RestClient.TransactionClient#createTransaction'
+	[Exception 1] com.usk.exception.TransactionFailedException: Transaction Failed
+	[Exception 1] jakarta.ws.rs.BadRequestException: Multiple exceptions caught:
+	[Exception 0] org.jboss.resteasy.reactive.ClientWebApplicationException: Received: 'Bad Request, status code 400' when invoking REST Client method: 'com.usk.RestClient.TransactionClient#createTransaction'
+	[Exception 1] com.usk.exception.TransactionFailedException: Transaction Failed
+	at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.performInnerSubscription(UniOnFailureFlatMap.java:97)
+	at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.dispatch(UniOnFailureFlatMap.java:86)
+	at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.onFailure(UniOnFailureFlatMap.java:63)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOnTerminationCall$UniOnTerminationCallProcessor.lambda$onFailure$3(UniOnTerminationCall.java:82)
+	at io.smallrye.context.impl.wrappers.SlowContextualConsumer.accept(SlowContextualConsumer.java:21)
+	at io.smallrye.mutiny.helpers.UniCallbackSubscriber.onItem(UniCallbackSubscriber.java:73)
+	at io.smallrye.mutiny.operators.uni.UniOnTermination$UniOnTerminationProcessor.onItem(UniOnTermination.java:39)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onItem(UniOperatorProcessor.java:47)
+	at io.smallrye.mutiny.operators.uni.builders.UniCreateFromCompletionStage$CompletionStageUniSubscription.forwardResult(UniCreateFromCompletionStage.java:63)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:907)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenCompleteStage(CompletableFuture.java:931)
+	at java.base/java.util.concurrent.CompletableFuture.whenComplete(CompletableFuture.java:2401)
+	at java.base/java.util.concurrent.CompletableFuture.whenComplete(CompletableFuture.java:144)
+	at io.smallrye.mutiny.operators.uni.builders.UniCreateFromCompletionStage$CompletionStageUniSubscription.forward(UniCreateFromCompletionStage.java:51)
+	at io.smallrye.mutiny.operators.uni.builders.UniCreateFromCompletionStage.subscribe(UniCreateFromCompletionStage.java:35)
+	at io.smallrye.mutiny.operators.AbstractUni.subscribe(AbstractUni.java:35)
+	at io.smallrye.mutiny.operators.uni.UniRunSubscribeOn.lambda$subscribe$0(UniRunSubscribeOn.java:27)
+	at org.hibernate.reactive.context.impl.VertxContext.execute(VertxContext.java:90)
+	at io.smallrye.mutiny.operators.uni.UniRunSubscribeOn.subscribe(UniRunSubscribeOn.java:25)
+	at io.smallrye.mutiny.operators.AbstractUni.subscribe(AbstractUni.java:35)
+	at io.smallrye.mutiny.operators.uni.UniOnTermination.subscribe(UniOnTermination.java:21)
+	at io.smallrye.mutiny.operators.AbstractUni.subscribe(AbstractUni.java:35)
+	at io.smallrye.mutiny.groups.UniSubscribe.withSubscriber(UniSubscribe.java:51)
+	at io.smallrye.mutiny.groups.UniSubscribe.with(UniSubscribe.java:110)
+	at io.smallrye.mutiny.operators.uni.UniOnTerminationCall$UniOnTerminationCallProcessor.onFailure(UniOnTerminationCall.java:80)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOnTermination$UniOnTerminationProcessor.onFailure(UniOnTermination.java:52)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOnCancellationCall$UniOnCancellationCallProcessor.onFailure(UniOnCancellationCall.java:59)
+	at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.onFailure(UniOnFailureFlatMap.java:65)
+	at io.smallrye.mutiny.operators.uni.UniOnFailureTransform$UniOnFailureTransformProcessor.onFailure(UniOnFailureTransform.java:67)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.builders.UniCreateFromKnownFailure$KnownFailureSubscription.forward(UniCreateFromKnownFailure.java:42)
+	at io.smallrye.mutiny.operators.uni.builders.UniCreateFromKnownFailure.subscribe(UniCreateFromKnownFailure.java:23)
+	at io.smallrye.mutiny.operators.AbstractUni.subscribe(AbstractUni.java:35)
+	at io.smallrye.mutiny.operators.uni.UniOnItemTransformToUni$UniOnItemTransformToUniProcessor.performInnerSubscription(UniOnItemTransformToUni.java:81)
+	at io.smallrye.mutiny.operators.uni.UniOnItemTransformToUni$UniOnItemTransformToUniProcessor.onItem(UniOnItemTransformToUni.java:57)
+	at io.smallrye.mutiny.operators.uni.builders.UniCreateFromCompletionStage$CompletionStageUniSubscription.forwardResult(UniCreateFromCompletionStage.java:63)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:907)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:885)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:554)
+	at java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2223)
+	at io.vertx.core.Future.lambda$toCompletionStage$3(Future.java:600)
+	at io.vertx.core.impl.future.FutureImpl$4.onSuccess(FutureImpl.java:176)
+	at io.vertx.core.impl.future.FutureImpl$ListenerArray.onSuccess(FutureImpl.java:310)
+	at io.vertx.core.impl.future.FutureBase.emitSuccess(FutureBase.java:66)
+	at io.vertx.core.impl.future.FutureImpl.tryComplete(FutureImpl.java:259)
+	at io.vertx.core.impl.future.FixedMapping.onSuccess(FixedMapping.java:31)
+	at io.vertx.core.impl.future.FutureBase.emitSuccess(FutureBase.java:66)
+	at io.vertx.core.impl.future.FutureImpl.tryComplete(FutureImpl.java:259)
+	at io.vertx.core.Promise.complete(Promise.java:66)
+	at io.vertx.sqlclient.impl.TransactionImpl.lambda$txCommand$2(TransactionImpl.java:154)
+	at io.vertx.core.impl.future.FutureImpl$4.onSuccess(FutureImpl.java:176)
+	at io.vertx.core.impl.future.FutureBase.lambda$emitSuccess$0(FutureBase.java:60)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:569)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:998)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:1575)
+	Suppressed: jakarta.ws.rs.BadRequestException: Multiple exceptions caught:
+	[Exception 0] org.jboss.resteasy.reactive.ClientWebApplicationException: Received: 'Bad Request, status code 400' when invoking REST Client method: 'com.usk.RestClient.TransactionClient#createTransaction'
+	[Exception 1] com.usk.exception.TransactionFailedException: Transaction Failed
+		at com.usk.resource.OrderResource.lambda$createOrder$3(OrderResource.java:56)
+		at io.smallrye.context.impl.wrappers.SlowContextualFunction.apply(SlowContextualFunction.java:21)
+		at io.smallrye.mutiny.groups.UniOnFailure.lambda$recoverWithItem$8(UniOnFailure.java:193)
+		at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.performInnerSubscription(UniOnFailureFlatMap.java:95)
+		... 64 more
+Caused by: io.smallrye.mutiny.CompositeException: Multiple exceptions caught:
+	[Exception 0] org.jboss.resteasy.reactive.ClientWebApplicationException: Received: 'Bad Request, status code 400' when invoking REST Client method: 'com.usk.RestClient.TransactionClient#createTransaction'
+	[Exception 1] com.usk.exception.TransactionFailedException: Transaction Failed
+	at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.performInnerSubscription(UniOnFailureFlatMap.java:97)
+	at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.dispatch(UniOnFailureFlatMap.java:86)
+	at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.onFailure(UniOnFailureFlatMap.java:63)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOperatorProcessor.onFailure(UniOperatorProcessor.java:55)
+	at io.smallrye.mutiny.operators.uni.UniOnCancellation$UniOnCancellationProcessor.onFailure(UniOnCancellation.java:56)
+	at io.smallrye.mutiny.operators.uni.UniOnFailureTransform$UniOnFailureTransformProcessor.onFailure(UniOnFailureTransform.java:67)
+	at io.smallrye.mutiny.operators.uni.builders.UniCreateFromCompletionStage$CompletionStageUniSubscription.forwardResult(UniCreateFromCompletionStage.java:58)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:907)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:885)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:554)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2238)
+	at org.jboss.resteasy.reactive.client.impl.RestClientRequestContext.handleUnrecoverableError(RestClientRequestContext.java:419)
+	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.handleException(AbstractResteasyReactiveContext.java:334)
+	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.run(AbstractResteasyReactiveContext.java:175)
+	at io.smallrye.context.impl.wrappers.SlowContextualRunnable.run(SlowContextualRunnable.java:19)
+	at org.jboss.resteasy.reactive.client.handlers.ClientSwitchToRequestContextRestHandler$1$1.handle(ClientSwitchToRequestContextRestHandler.java:38)
+	at org.jboss.resteasy.reactive.client.handlers.ClientSwitchToRequestContextRestHandler$1$1.handle(ClientSwitchToRequestContextRestHandler.java:35)
+	at io.vertx.core.impl.ContextInternal.dispatch(ContextInternal.java:270)
+	at io.vertx.core.impl.ContextInternal.dispatch(ContextInternal.java:252)
+	at io.vertx.core.impl.ContextInternal.lambda$runOnContext$0(ContextInternal.java:50)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:566)
+	... 4 more
+	Suppressed: com.usk.exception.TransactionFailedException: Transaction Failed
+		at com.usk.service.OrderService.lambda$createAndSaveOrder$8(OrderService.java:172)
+		at io.smallrye.context.impl.wrappers.SlowContextualSupplier.get(SlowContextualSupplier.java:21)
+		at io.smallrye.mutiny.groups.UniOnFailure.lambda$recoverWithItem$7(UniOnFailure.java:176)
+		at io.smallrye.context.impl.wrappers.SlowContextualFunction.apply(SlowContextualFunction.java:21)
+		at io.smallrye.mutiny.groups.UniOnFailure.lambda$recoverWithItem$8(UniOnFailure.java:193)
+		at io.smallrye.mutiny.operators.uni.UniOnFailureFlatMap$UniOnFailureFlatMapProcessor.performInnerSubscription(UniOnFailureFlatMap.java:95)
+		... 29 more
+Caused by: org.jboss.resteasy.reactive.ClientWebApplicationException: Received: 'Bad Request, status code 400' when invoking REST Client method: 'com.usk.RestClient.TransactionClient#createTransaction'
+	at org.jboss.resteasy.reactive.client.impl.RestClientRequestContext.unwrapException(RestClientRequestContext.java:224)
+	... 16 more
+Caused by: jakarta.ws.rs.WebApplicationException: Bad Request, status code 400
+	at io.quarkus.rest.client.reactive.runtime.DefaultMicroprofileRestClientExceptionMapper.toThrowable(DefaultMicroprofileRestClientExceptionMapper.java:19)
+	at io.quarkus.rest.client.reactive.runtime.MicroProfileRestClientResponseFilter.filter(MicroProfileRestClientResponseFilter.java:55)
+	at org.jboss.resteasy.reactive.client.handlers.ClientResponseFilterRestHandler.doHandle(ClientResponseFilterRestHandler.java:76)
+	at org.jboss.resteasy.reactive.client.handlers.ClientResponseFilterRestHandler.handle(ClientResponseFilterRestHandler.java:31)
+	at org.jboss.resteasy.reactive.client.handlers.ClientResponseFilterRestHandler.handle(ClientResponseFilterRestHandler.java:18)
+	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.invokeHandler(AbstractResteasyReactiveContext.java:231)
+	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.run(AbstractResteasyReactiveContext.java:147)
+	... 14 more
+
+2026-07-09 22:36:21,738 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] WARNING [org.aes.rea.ter.imp.AbstractWindowsTerminal] (Shutdown thread) Failed to write out.
+2026-07-09 22:36:21,735 lp-5cd119612k C:\Program Files\jdk-23.0.2\bin\java.exe[30048] INFO  [io.quarkus] (Shutdown thread) reactive_curd_app_practice stopped in 0.203s

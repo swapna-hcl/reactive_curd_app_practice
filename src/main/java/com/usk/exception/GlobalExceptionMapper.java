@@ -22,7 +22,7 @@ public class GlobalExceptionMapper {
      * Returns HTTP 404 (Not Found) when a product doesn't exist
      */
     @ServerExceptionMapper
-    public RestResponse<ExceptionResponsedto> handleProductNotFoundException(ProductNotFoundException e) {
+    public RestResponse<ExceptionResponsedto> ProductNotFoundException(ProductNotFoundException e) {
         Log.error("Product not found: " + e.getMessage());
         
         // Create error response
@@ -39,7 +39,7 @@ public class GlobalExceptionMapper {
      * Returns HTTP 404 (Not Found) when a user doesn't exist
      */
     @ServerExceptionMapper
-    public RestResponse<ExceptionResponsedto> handleUserNotFoundException(UserNotFoundException e) {
+    public RestResponse<ExceptionResponsedto> UserNotFoundException(UserNotFoundException e) {
         Log.error("User not found: " + e.getMessage());
         
         // Create error response
@@ -49,6 +49,45 @@ public class GlobalExceptionMapper {
         
         // Return HTTP 404 with error details
         return RestResponse.status(RestResponse.Status.NOT_FOUND, dto);
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionResponsedto> UserAlreadyExistsException(UserAlreadyExistsException e){
+        Log.error("USer already Exists" + e.getMessage());
+        // Create error response
+        ExceptionResponsedto dto = new ExceptionResponsedto();
+        dto.setStatusCode(404);
+        dto.setMessage(e.getMessage());
+
+        // Return HTTP 404 with error details
+        return RestResponse.status(RestResponse.Status.FOUND, dto);
+    }
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionResponsedto> BadRequestException(BadRequestException e){
+        Log.error("Bad request" + e.getMessage());
+
+        // Create error response
+        ExceptionResponsedto dto = new ExceptionResponsedto();
+        dto.setStatusCode(400);
+        dto.setMessage(e.getMessage());
+
+        // Return HTTP 404 with error details
+        return RestResponse.status(RestResponse.Status.BAD_REQUEST, dto);
+    }
+
+
+    @ServerExceptionMapper
+    public RestResponse<ExceptionResponsedto> TransactionFailedException(TransactionFailedException e){
+        Log.error("Transaction failed: " + e.getMessage());
+
+        // Create error response
+        ExceptionResponsedto dto = new ExceptionResponsedto();
+        dto.setStatusCode(400);
+        dto.setMessage(e.getMessage());
+
+        // Return HTTP 404 with error details
+        return RestResponse.status(RestResponse.Status.BAD_REQUEST, dto);
     }
 
 }
