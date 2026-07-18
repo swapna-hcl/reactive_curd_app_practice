@@ -53,7 +53,7 @@ public class Order extends PanacheEntity {
     @PrePersist
     public void prePersist() {
         if (orderDate == null) {
-            orderDate = LocalDateTime.now();
+            orderDate = LocalDate.from(LocalDateTime.now());
         }
     }
 }

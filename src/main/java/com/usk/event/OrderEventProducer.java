@@ -29,7 +29,7 @@ public class OrderEventProducer {
                 System.out.println("Published event: " + json);
                 return null;
             }catch (Exception e){
-                throw new BadRequestException("Failed to publish order event", e);
+                throw new BadRequestException("Failed to publish order event");
             }
         });
     }

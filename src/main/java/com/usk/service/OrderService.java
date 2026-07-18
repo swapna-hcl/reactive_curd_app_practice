@@ -21,6 +21,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +129,7 @@ public class OrderService {
         // Create a new order object
         Order order = new Order();
         order.user = user;
-        order.orderDate = LocalDateTime.now();
+        order.orderDate = LocalDate.from(LocalDateTime.now());
         order.orderItems = new ArrayList<>();
 
         double totalPrice = 0.0;
@@ -168,7 +169,7 @@ public class OrderService {
             })
             .chain(transactionResponse -> {
                 // Only save the order if transaction was successful
-                return orderRepository.persistAndFlush(order).onItem().transformToUni(savedOrder -> {)
+                return orderRepository.persistAndFlush(order).onItem().transformToUni(savedOrder -> {
                     if (savedOrder == null) {
                         throw new TransactionFailedException("Failed to save order after successful transaction");
                     }
@@ -180,6 +181,7 @@ public class OrderService {
                     event.expectedDeliveryDate = savedOrder.orderDate.plusDays(7); // Example: 7 days delivery
                     event.paymentStatus = transactionResponse.transactionStatus;
                     event.orderStatus = "CREATED";
+                    event.products = request.products;
                     return producer.publishOrderEvent(event).onItem().transformToUni(v -> Uni.createFrom().item(savedOrder));
                 });
             })

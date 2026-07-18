@@ -1,6 +1,7 @@
 package com.usk.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class OrderEvent {
     public Long orderId;
@@ -10,5 +11,6 @@ public class OrderEvent {
     public LocalDate expectedDeliveryDate;
     public String paymentStatus;
     public String orderStatus;
+    public List<OrderProductDto> products;
 
 }
