@@ -1,6 +1,6 @@
 package com.usk.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -16,7 +16,9 @@ public class OrderResponseDto {
     public Double totalPrice;
     
     // When the order was created
-    public LocalDateTime orderDate;
+    public LocalDate orderDate;
+
+    public String transactionStatus;
     
     // List of items in the order with details
     public List<OrderItemDto> orderItems;
@@ -27,7 +29,7 @@ public class OrderResponseDto {
 
     // Constructor with all fields
     public OrderResponseDto(Long orderId, Long userId, Double totalPrice, 
-                           LocalDateTime orderDate, List<OrderItemDto> orderItems) {
+                           LocalDate orderDate, List<OrderItemDto> orderItems) {
         this.orderId = orderId;
         this.userId = userId;
         this.totalPrice = totalPrice;

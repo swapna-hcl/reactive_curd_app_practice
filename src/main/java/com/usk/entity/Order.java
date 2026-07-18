@@ -2,6 +2,8 @@ package com.usk.entity;
 
 import io.quarkus.hibernate.reactive.panache.PanacheEntity;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class Order extends PanacheEntity {
 
     // When the order was created
     @Column(name = "order_date", nullable = false)
-    public LocalDateTime orderDate;
+    public LocalDate orderDate;
 
     /**
      * List of items in this order
@@ -42,6 +44,7 @@ public class Order extends PanacheEntity {
      */
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<OrderItem> orderItems = new ArrayList<>();
+    public Object transactionStatus;
 
     /**
      * This method runs automatically before saving to database

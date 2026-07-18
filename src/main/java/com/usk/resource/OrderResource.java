@@ -30,11 +30,7 @@ public class OrderResource {
     @Path("/users/{userId}/orders/latest")
     public Uni<Response> getLatestOrdersByUser(@PathParam("userId") Long userId) {
         return orderService.getLatestOrdersByUserId(userId)
-                .onItem().transform(orders -> Response.ok(orders).build())
-                .onFailure().recoverWithItem(error -> {
-
-                   throw new BadRequestException(error.getMessage());
-                });
+                .onItem().transform(orders -> Response.ok(orders).build());
     }
 
     /**
@@ -51,9 +47,6 @@ public class OrderResource {
                         .status(Response.Status.CREATED)  // HTTP 201
                         .entity(orderResponse)  // Send the order response as JSON
                         .build();
-                })
-                .onFailure().recoverWithItem(error -> {
-                    throw new BadRequestException(error.getMessage());
                 });
         }
 
@@ -68,10 +61,7 @@ public class OrderResource {
     @Path("/orders")
     public Uni<Response> getAllOrders() {
         return orderService.getAllOrders()
-                .onItem().transform(orders -> Response.ok(orders).build())
-                .onFailure().recoverWithItem(error -> {
-                    throw new BadRequestException(error.getMessage());
-                });
+                .onItem().transform(orders -> Response.ok(orders).build());
     }
 
 }

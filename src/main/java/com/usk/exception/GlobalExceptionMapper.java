@@ -80,13 +80,16 @@ public class GlobalExceptionMapper {
     @ServerExceptionMapper
     public RestResponse<ExceptionResponsedto> TransactionFailedException(TransactionFailedException e){
         Log.error("Transaction failed: " + e.getMessage());
+        if (e.getCause() != null) {
+            Log.error("Root cause: " + e.getCause().getMessage());
+        }
 
         // Create error response
         ExceptionResponsedto dto = new ExceptionResponsedto();
         dto.setStatusCode(400);
         dto.setMessage(e.getMessage());
 
-        // Return HTTP 404 with error details
+        // Return HTTP 400 with error details
         return RestResponse.status(RestResponse.Status.BAD_REQUEST, dto);
     }
 
