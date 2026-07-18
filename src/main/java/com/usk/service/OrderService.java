@@ -6,6 +6,7 @@ import com.usk.entity.Order;
 import com.usk.entity.OrderItem;
 import com.usk.entity.Product;
 import com.usk.entity.User;
+import com.usk.event.OrderEventProducer;
 import com.usk.exception.ProductNotFoundException;
 import com.usk.exception.TransactionFailedException;
 import com.usk.exception.UserNotFoundException;
@@ -46,6 +47,9 @@ public class OrderService {
 
     @RestClient
     TransactionClient transactionClient;
+
+    @Inject
+    OrderEventProducer producer;
 
 
     @ConfigProperty(name = "ecom.account.number")
@@ -158,22 +162,37 @@ public class OrderService {
 
         // Chain the transaction call with order persistence
         return transactionClient.createTransaction(transactionRequest)
+            .onItem().invoke(transactionResponse -> {
+                // Transaction successful, set the transaction status
+                order.transactionStatus = transactionResponse.getTransactionStatus();
+            })
             .chain(transactionResponse -> {
-                // Transaction successful, now save the order
-                return orderRepository.persistAndFlush(order);
+                // Only save the order if transaction was successful
+                return orderRepository.persistAndFlush(order).onItem().transformToUni(savedOrder -> {)
+                    if (savedOrder == null) {
+                        throw new TransactionFailedException("Failed to save order after successful transaction");
+                    }
+                    OrderEvent event = new OrderEvent();
+                    event.orderId = savedOrder.id;
+                    event.userId = savedOrder.user.id;
+                    event.totalAmount = savedOrder.totalPrice;
+                    event.orderDate = savedOrder.orderDate;
+                    event.expectedDeliveryDate = savedOrder.orderDate.plusDays(7); // Example: 7 days delivery
+                    event.paymentStatus = transactionResponse.transactionStatus;
+                    event.orderStatus = "CREATED";
+                    return producer.publishOrderEvent(event).onItem().transformToUni(v -> Uni.createFrom().item(savedOrder));
+                });
             })
             .chain(savedOrder -> {
                 // Reload the order to get fresh data with populated IDs
                 return orderRepository.findById(savedOrder.id);
             })
             .map(reloadedOrder -> buildResponse(reloadedOrder, products))
-            .onFailure().recoverWithItem(() -> {
-                // Log error but still create order if transaction fails
-                    throw new TransactionFailedException("Transaction Failed");
+            .onFailure().transform(failure -> {
+                // If transaction fails, wrap it in our custom exception
+                // This ensures the order is NOT created if transaction fails
+                return new TransactionFailedException("Transaction Failed: " + failure.getMessage(), failure);
             });
-
-
-
     }
 
     /**
@@ -187,7 +206,7 @@ public class OrderService {
         response.totalPrice = order.totalPrice;
         response.orderDate = order.orderDate;
         response.orderItems = new ArrayList<>();
-
+        response.transactionStatus = order.transactionStatus != null ? order.transactionStatus.toString() : null;
         // Add order items to response (only orderItemId and productId)
         for (OrderItem item : order.orderItems) {
             OrderItemDto itemDto = new OrderItemDto(item.id, item.productId);
